@@ -10,7 +10,7 @@ namespace DeviceManagement_WebApp.Repository
         {
         }
 
-        public Zone GetById(Guid id)
+        public Zone GetById(Guid? id)
         {
             throw new NotImplementedException();
         }

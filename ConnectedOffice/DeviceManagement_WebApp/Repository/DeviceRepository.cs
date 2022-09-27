@@ -11,7 +11,7 @@ public class DeviceRepository : GenericRepository<Device> , IDeviceRepository
 	{
 	}
 
-	public Device GetById(Guid id)
+	public Device GetById(Guid? id)
 	{
 		throw new NotImplementedException();
 	}

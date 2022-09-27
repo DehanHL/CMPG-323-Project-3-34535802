@@ -10,7 +10,7 @@ namespace DeviceManagement_WebApp.Repository
         {
         }
 
-        public Category GetById(Guid id)
+        public Category GetById(Guid? id)
         {
             throw new NotImplementedException();
         }
