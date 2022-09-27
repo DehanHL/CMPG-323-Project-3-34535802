@@ -5,19 +5,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public class DeviceRepository
+public class DeviceRepository : GenericRepository<Device> , IDeviceRepository
 {
-	protected readonly ConnectedOfficeContext _context = new ConnectedOfficeContext();
-	
-	public DeviceRepository()
+	public DeviceRepository(ConnectedOfficeContext context) : base(context)
 	{
-
 	}
-	
-	
-	//GET All Devices
-	public IEnumerable<Device> GetAll()
+
+	public Device GetById(Guid id)
 	{
-		return _context.Device.ToList();
+		throw new NotImplementedException();
 	}
 }
