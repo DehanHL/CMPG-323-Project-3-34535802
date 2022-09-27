@@ -12,7 +12,7 @@ namespace DeviceManagement_WebApp.Controllers
 {
     public class DevicesController : Controller
     {
-        private readonly ConnectedOfficeContext _context;
+        private readonly ConnectedOfficeContext _context = new ConnectedOfficeContext();
 
         public DevicesController(ConnectedOfficeContext context)
         {
@@ -22,14 +22,8 @@ namespace DeviceManagement_WebApp.Controllers
         // GET: Devices
         public async Task<IActionResult> Index()
         {
-            DeviceRepository deviceRepository = new DeviceRepository();
-            var result = deviceRepository.GetAll();
-            return View(result);
-            
-            
-            /*
             var connectedOfficeContext = _context.Device.Include(d => d.Category).Include(d => d.Zone);
-            return View(await connectedOfficeContext.ToListAsync());*/
+            return View(await connectedOfficeContext.ToListAsync());
         }
 
         // GET: Devices/Details/5
