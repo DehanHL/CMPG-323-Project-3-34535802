@@ -33,13 +33,15 @@ namespace DeviceManagement_WebApp.Controllers
             {
                 return NotFound();
             }
-            
-            if (_categoryRepository.GetById(id) == null)
+
+            var device = _categoryRepository.GetById(id);
+
+            if (device == null)
             {
                 return NotFound();
             }
 
-            return View(_categoryRepository.GetById(id));
+            return View(device);
         }
 
         // GET: Categories/Create
