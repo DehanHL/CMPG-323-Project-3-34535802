@@ -65,11 +65,18 @@ namespace DeviceManagement_WebApp.Controllers
         // GET: Zones/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
-            if (_zoneRepository.GetById(id) == null)
+            if (id == null)
             {
                 return NotFound();
             }
-            return View(_zoneRepository.GetById(id));
+
+            var zone = _zoneRepository.GetById(id);
+
+            if (zone == null)
+            {
+                return NotFound();
+            }
+            return View(zone);
         }
 
         // POST: Zones/Edit/5
@@ -83,27 +90,39 @@ namespace DeviceManagement_WebApp.Controllers
             {
                 return NotFound();
             }
-            
-            if (_zoneRepository.Exists(id) == false)
+            try
             {
-                return NotFound();
+                _zoneRepository.Edit(zone);
             }
-            
-            //Not working
-            //_zoneRepository.Edit(zone);
-
+            catch(DbUpdateConcurrencyException)
+            {
+                if ((zone.ZoneId)!=null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }    
+            }
             return RedirectToAction(nameof(Index));
-
         }
 
         // GET: Zones/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
-            if (_zoneRepository.GetById(id) == null)
+            if (id == null)
             {
                 return NotFound();
             }
-            return View(_zoneRepository.GetById(id));
+
+            var zone = _zoneRepository.GetById(id);
+
+            if (zone == null)
+            {
+                return NotFound();
+            }
+            return View(zone);
         }
 
         // POST: Zones/Delete/5

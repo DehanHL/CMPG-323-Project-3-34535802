@@ -58,7 +58,7 @@ namespace DeviceManagement_WebApp.Controllers
         public async Task<IActionResult> Create([Bind("CategoryId,CategoryName,CategoryDescription,DateCreated")] Category category)
         {
             category.CategoryId = Guid.NewGuid();
-            _categoryRepository.Add(category);
+            _categoryRepository.Create(category);
             return RedirectToAction(nameof(Index));
         }
 
@@ -70,11 +70,13 @@ namespace DeviceManagement_WebApp.Controllers
                 return NotFound();
             }
 
-            if (_categoryRepository.GetById(id) == null)
+            var category = _categoryRepository.GetById(id);
+
+            if (category == null)
             {
                 return NotFound();
             }
-            return View(_categoryRepository.GetById(id));
+            return View(category);
         }
 
         // POST: Categories/Edit/5
@@ -90,8 +92,7 @@ namespace DeviceManagement_WebApp.Controllers
             }
             try
             {
-                //_context.Update(category);
-                //await _context.SaveChangesAsync();
+                _categoryRepository.Edit(category);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -115,14 +116,14 @@ namespace DeviceManagement_WebApp.Controllers
                 return NotFound();
             }
 
-            //var category = await _context.Category
-               // .FirstOrDefaultAsync(m => m.CategoryId == id);
-            if (_categoryRepository.GetById(id) == null)
+            var category = _categoryRepository.GetById(id);
+
+            if (category == null)
             {
                 return NotFound();
             }
 
-            return View(_categoryRepository.GetById(id));
+            return View(category);
         }
 
         // POST: Categories/Delete/5
@@ -130,6 +131,7 @@ namespace DeviceManagement_WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
+            _categoryRepository.Delete(_categoryRepository.GetById(id));
             return RedirectToAction(nameof(Index));
         }
     }
