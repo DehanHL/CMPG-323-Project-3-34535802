@@ -10,4 +10,12 @@ public class DeviceRepository : GenericRepository<Device> , IDeviceRepository
 	public DeviceRepository(ConnectedOfficeContext context) : base(context)
 	{
 	}
+	public IEnumerable<Category> GetCategories()
+	{
+		return _context.Category.ToList();
+	}
+	public IEnumerable<Zone> GetZones()
+	{
+		return _context.Zone.ToList();
+	}
 }
