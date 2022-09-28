@@ -9,10 +9,5 @@ namespace DeviceManagement_WebApp.Repository
         public CategoryRepository(ConnectedOfficeContext context) : base(context)
         {
         }
-
-        public Category GetById(Guid? id)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

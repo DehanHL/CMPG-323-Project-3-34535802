@@ -9,10 +9,5 @@ namespace DeviceManagement_WebApp.Repository
         public ZoneRepository(ConnectedOfficeContext context) : base(context)
         {
         }
-
-        public Zone GetById(Guid? id)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

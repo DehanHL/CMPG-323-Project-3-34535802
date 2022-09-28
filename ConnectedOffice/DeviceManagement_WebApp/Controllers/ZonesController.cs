@@ -34,8 +34,14 @@ namespace DeviceManagement_WebApp.Controllers
                 return NotFound();
             }
 
+            var zone = _zoneRepository.GetById(id);
 
-            return View(_zoneRepository.GetAll());
+            if (zone == null)
+            {
+                return NotFound();
+            }
+
+            return View(zone);
         }
 
         // GET: Zones/Create
@@ -52,19 +58,18 @@ namespace DeviceManagement_WebApp.Controllers
         public async Task<IActionResult> Create([Bind("ZoneId,ZoneName,ZoneDescription,DateCreated")] Zone zone)
         {
             zone.ZoneId = Guid.NewGuid();
-            _zoneRepository.Add(zone);
+            _zoneRepository.Create(zone);
             return RedirectToAction(nameof(Index));
         }
 
         // GET: Zones/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
-            if (id == null)
+            if (_zoneRepository.GetById(id) == null)
             {
                 return NotFound();
             }
-
-            return View(_zoneRepository.GetAll());
+            return View(_zoneRepository.GetById(id));
         }
 
         // POST: Zones/Edit/5
@@ -78,6 +83,14 @@ namespace DeviceManagement_WebApp.Controllers
             {
                 return NotFound();
             }
+            
+            if (_zoneRepository.Exists(id) == false)
+            {
+                return NotFound();
+            }
+            
+            //Not working
+            //_zoneRepository.Edit(zone);
 
             return RedirectToAction(nameof(Index));
 
@@ -86,13 +99,11 @@ namespace DeviceManagement_WebApp.Controllers
         // GET: Zones/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
-            if (id == null)
+            if (_zoneRepository.GetById(id) == null)
             {
                 return NotFound();
             }
-
-
-            return View(_zoneRepository.GetAll());
+            return View(_zoneRepository.GetById(id));
         }
 
         // POST: Zones/Delete/5
@@ -100,6 +111,7 @@ namespace DeviceManagement_WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
+            _zoneRepository.Delete(_zoneRepository.GetById(id));
             return RedirectToAction(nameof(Index));
         }
     }

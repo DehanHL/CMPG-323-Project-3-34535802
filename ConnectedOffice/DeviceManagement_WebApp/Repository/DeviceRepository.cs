@@ -10,9 +10,4 @@ public class DeviceRepository : GenericRepository<Device> , IDeviceRepository
 	public DeviceRepository(ConnectedOfficeContext context) : base(context)
 	{
 	}
-
-	public Device GetById(Guid? id)
-	{
-		throw new NotImplementedException();
-	}
 }

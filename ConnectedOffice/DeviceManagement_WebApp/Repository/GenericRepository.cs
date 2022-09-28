@@ -30,7 +30,7 @@ namespace DeviceManagement_WebApp.Repository
         {
             return _context.Set<T>().ToList();
         }
-        public T GetById(int id)
+        public T GetById(Guid? id)
         {
             return _context.Set<T>().Find(id);
         }
@@ -42,15 +42,36 @@ namespace DeviceManagement_WebApp.Repository
         {
             _context.Set<T>().RemoveRange(entities);
         }
-
         public void Save()
         {
             _context.SaveChanges();
         }
-
         public void Update(T entity)
         {
             _context.Update(entity);
+        }
+        public void Create(T entity)
+        {
+            Add(entity);
+            Save();
+        }
+        public void Delete(T entity)
+        {
+            Remove(entity);
+            Save();
+        }
+        public bool Exists(Guid? id)
+        {
+            if (GetById(id) == null)
+            {
+                return false;
+            }
+            return true;
+        }
+        public void Edit(T entity)
+        {
+            Update(entity);
+            Save();
         }
     }
 }
