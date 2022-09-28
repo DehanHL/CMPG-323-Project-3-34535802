@@ -34,10 +34,14 @@ namespace DeviceManagement_WebApp.Controllers
                 return NotFound();
             }
 
+            var device = _deviceRepository.GetById(id);
             
-            
+            if (device == null)
+            {
+                return NotFound();
+            }
 
-            return View(_deviceRepository.GetAll());
+            return View(device);
         }
 
         // GET: Devices/Create
@@ -54,7 +58,7 @@ namespace DeviceManagement_WebApp.Controllers
         public async Task<IActionResult> Create([Bind("DeviceId,DeviceName,CategoryId,ZoneId,Status,IsActive,DateCreated")] Device device)
         {
             device.DeviceId = Guid.NewGuid();
-            _deviceRepository.Add(device);
+            _deviceRepository.Create(device);
             return RedirectToAction(nameof(Index));
         }
 
@@ -65,9 +69,13 @@ namespace DeviceManagement_WebApp.Controllers
             {
                 return NotFound();
             }
-
             
-            return View(_deviceRepository.GetAll());
+            var device = _deviceRepository.GetById(id);
+            if (device == null)
+            {
+                return NotFound();
+            }
+            return View(device);
         }
 
         // POST: Devices/Edit/5
@@ -77,8 +85,25 @@ namespace DeviceManagement_WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, [Bind("DeviceId,DeviceName,CategoryId,ZoneId,Status,IsActive,DateCreated")] Device device)
         {
-            
-
+            if (id != device.DeviceId)
+            {
+                return NotFound();
+            }
+            try
+            {
+                _deviceRepository.Edit(device);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if ((device.DeviceId) != null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
             return RedirectToAction(nameof(Index));
 
         }
@@ -91,9 +116,12 @@ namespace DeviceManagement_WebApp.Controllers
                 return NotFound();
             }
 
-            
-
-            return View(_deviceRepository.GetAll());
+            var device = _deviceRepository.GetById(id);
+            if (device == null)
+            {
+                return NotFound();
+            }
+            return View(device);
         }
 
         // POST: Devices/Delete/5
@@ -101,6 +129,7 @@ namespace DeviceManagement_WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
+            _deviceRepository.Delete(_deviceRepository.GetById(id));
             return RedirectToAction(nameof(Index));
         }
     }

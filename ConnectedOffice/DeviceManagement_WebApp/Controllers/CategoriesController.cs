@@ -34,14 +34,14 @@ namespace DeviceManagement_WebApp.Controllers
                 return NotFound();
             }
 
-            var device = _categoryRepository.GetById(id);
+            var category = _categoryRepository.GetById(id);
 
-            if (device == null)
+            if (category == null)
             {
                 return NotFound();
             }
 
-            return View(device);
+            return View(category);
         }
 
         // GET: Categories/Create
@@ -71,7 +71,6 @@ namespace DeviceManagement_WebApp.Controllers
             }
 
             var category = _categoryRepository.GetById(id);
-
             if (category == null)
             {
                 return NotFound();
